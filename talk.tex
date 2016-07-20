@@ -1,6 +1,6 @@
 \pagenumbering{arabic}
 %\documentclass[slides]{beamer}
-\documentclass[mathserif, 8pt]{beamer}
+\documentclass[mathserif, 10pt]{beamer}
 \usepackage[framesassubsections]{beamerprosper}
 \setbeamercovered{transparent}
 %\documentclass[slides,hyperref={pdfpagelabels=false}]{beamer}
@@ -257,82 +257,214 @@ Density Functional Theory with multiwavelets
     \begin{center}
     \only<1>{\includegraphics[scale=0.5, clip, viewport = 50 300 550 800]{figures/basis_set_1.pdf}}
     \only<2>{\includegraphics[scale=0.5, clip, viewport = 50 300 550 800]{figures/basis_set_2.pdf}}
-    \only<3>{\includegraphics[scale=0.5, clip, viewport = 0 300 550 800]{figures/chemical_accuracy.pdf}}
     \end{center}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Integral formulation}
+    \frametitle{Integral formulation of Kohn-Sham}
     \centering
-    The Kohn-Sham equations
+    \textbf{Kohn-Sham equations}
     \begin{equation}
 	\nonumber
-	\left[-\frac{1}{2}\nabla^2 + v_{eff}(\boldsymbol{r})\right]
-	\phi_i(\boldsymbol{r}) =\ \epsilon_i \phi(\boldsymbol{r})
+	\bigg[-\frac{1}{2}\nabla^2 + \hat{V}\bigg]\phi_i(r) = \epsilon_i \phi_i(r)
     \end{equation}
-    \ \\
-    \ \\
-    \ \\
-    \ \\
-    \pause
-    can be expressed in integral form
+
+    \vspace{5mm}
+
+    rewrite using $\mu_i^2 = -2\epsilon_i$
+    \begin{align}
+	\nonumber
+	\Big[-\nabla^2 + \mu_i^2\Big]\phi_i(r) =&\ -2\hat{V}\phi_i(r)\\
+	\nonumber
+	\phi_i(r) =&-2\Big[-\nabla^2 + \mu_i^2\Big]^{-1}\hat{V}\phi_i(r)\\
+	\nonumber
+	\phi_i =&-2\hat{G}_{\mu_i}\Big[\hat{V}\phi_i\Big]
+    \end{align}
+
+    \vspace{5mm}
+
+    \textbf{Bound-State Helmholtz operator}
     \begin{equation}
 	\nonumber
-	\phi_i(\boldsymbol{r}) =\ -2\int H^{\mu}(\boldsymbol{r}-\boldsymbol{r}')\
-	    \Big[v_{eff}(\boldsymbol{r}') \phi_i(\boldsymbol{r}')\Big] d\boldsymbol{r}'
+	\hat{G}_{\mu_i}f(r) = \int \frac{e^{-\mu_i |r-r'|}}{4\pi|r-r'|}f(r')dr'
     \end{equation}
-    \ \\
-    \ \\
-    \ \\
-    \ \\
-    \pause
-    and solved iteratively
-    \begin{equation}
-	\nonumber
-	\phi_i^{n+1} =\ -2\hat{H}\left[v_{eff}^n\phi_i^n\right]
-    \end{equation}
-    \ \\
-    \ \\
-    \ \\
-    \ \\
-    standard iterative subspace acceleration techniques (KAIN or DIIS) can be applied
+
+    \vspace{5mm}
+
+    \centering
+    \tiny
+    MH Kalos,
+    {\it Phys. Rev.}, 
+    \textbf{128(4)},
+    1791 (1962)\\
+    RJ Harrison, GI Fann, T Yanai, Z Gan and G Beylkin,
+    {\it J. Chem. Phys.}, 
+    \textbf{121},
+    11587 (2004)
 \end{frame}
 
 \begin{frame}
-    \frametitle{Hydrogen atom}
+    \frametitle{Iterative algorithms}
+\end{frame}
+
+\begin{frame}
+    \frametitle{One-electron systems}
+    \centering
+    \textbf{Potential operator}
+    \begin{equation}
+	\nonumber
+	\hat{V} = v_{nuc}(r) = -\sum_I\frac{Z_I}{|r-R_I|}
+    \end{equation}
+
+    \vspace{5mm}
+
+    \textbf{Smoothed nuclear potential}
+    \begin{align}
+	\nonumber
+	\frac{1}{r} &\approx \frac{erf(r)}{r} +
+	\frac{1}{3\sqrt{\pi}}\big(e^{-r^2}+16e^{-4r^2}\big)
+    \end{align}
+
+    \vspace{5mm}
+
+    \textbf{One-electron Schr\"{o}dinger equation}
+    \begin{equation}
+        \nonumber
+        \Big[-\frac{1}{2}\nabla^2 + v_{nuc}\Big]\psi(r) = E \psi(r)
+    \end{equation}
+
+    \vspace{1mm}
+
+    \begin{equation}
+        \nonumber
+        \psi = -2\hat{G}_\mu \Big[v_{nuc} \psi \Big]
+    \end{equation}
+
+    \vspace{5mm}
+
+    \centering
+    \tiny
+    RJ Harrison, GI Fann, T Yanai, Z Gan and G Beylkin,
+    {\it J. Chem. Phys.}, 
+    \textbf{121}, 11587
+    (2004)
+\end{frame}
+
+\begin{frame}
+    \frametitle{One-electron systems}
+    \centering
+    \textbf{Power iteration of the BSH operator}
+    \begin{equation}
+	\nonumber
+	\phi^{n+1} = -2G_{\mu}\Big[\hat{V} \phi^n\Big]
+    \end{equation}
+
+    \vspace{3mm}
+
+    \textbf{Finding roots of the residual}
+    \begin{equation}
+	\nonumber
+	f(\phi) = -2G_{\mu}\big[\hat{V} \phi\big] -\phi
+    \end{equation}
+
+    \vspace{3mm}
+
+    \pause
+    \textbf{Newton's method}
+    \begin{equation}
+	\nonumber
+	\phi^{n+1} = \phi^n - \Big[J(\phi^n)\Big]^{-1} f(\phi^n)
+    \end{equation}
+
+    \pause
+    \begin{equation}
+	\nonumber
+	\phi^{n+1} = \phi^n - \Big[J(\phi^n)\Big]^{-1}
+	\bigg(-2G_{\mu}\Big[\hat{V}\phi^n\Big] - \phi^n\bigg)
+    \end{equation}
+
+    \vspace{3mm}
+
+    \pause
+    So the direct power iteration is an "inexact" Newton method\\
+    where we approximate the Jacobian $J(\phi^n) \approx -1$.
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{One-electron systems}
+    \begin{columns}
+    \begin{column}{.50\textwidth}
     \centering
     \textbf{Power iteration}
     \begin{equation}
 	\nonumber
-	\phi^{n+1} = -2\hat{H}\left[v_{nuc}\phi^n\right]
+	\tilde{\psi}^{n+1} = -2\hat{G}_\mu \Big[ \hat{V} \psi^n \Big]
     \end{equation}
-    \ \\
-    \ \\
-    \ \\
-    \begin{columns}
-    \begin{column}{.10\textwidth}
-    \ \\
     \end{column}
-    \begin{column}{.40\textwidth}
+
+    \begin{column}{.50\textwidth}
     \centering
-    \textbf{Orbital update}
+    \textbf{Normalization}
     \begin{equation}
 	\nonumber
-	\Delta\phi^n = \phi^{n+1} - \phi^n
+	\psi^{n+1} = \frac{\tilde{\psi}^{n+1}}{\| \tilde{\psi}^{n+1} \|}
+    \end{equation}
+    \end{column}
+    \end{columns}
+
+    \vspace{5mm}
+
+    \begin{columns}
+    \begin{column}{.50\textwidth}
+    \centering
+    \textbf{Orbital residual}
+    \begin{equation}
+	\nonumber
+	\Delta\tilde{\psi}^n = \tilde{\psi}^{n+1} - \psi^n
     \end{equation}
     \end{column}
     \begin{column}{.50\textwidth}
+\only<2,3>{
     \centering
     \textbf{Energy update}
     \begin{equation}
 	\nonumber
-	\Delta \epsilon^n = \left<\phi^{n+1}|v_{nuc}|\Delta\phi^n\right>
+	\Delta E^n =
+        \frac{\langle\tilde{\psi}^{n+1}|\hat{V}|\Delta\tilde{\psi}^n\rangle}{\|\tilde{\psi}^{n+1}\|}
     \end{equation}
+}
     \end{column}
-    \end{columns}    
+    \end{columns}
+    
+\only<1>{
+    \vspace{10mm}
+
+\begin{align}
+    \tilde{E}^{n+1}
+    \nonumber
+    &=	\langle\tilde{\psi}^{n+1}| \hat{T}+\hat{V} | \tilde{\psi}^{n+1}\rangle\\
+    \nonumber
+    &=	\langle\tilde{\psi}^{n+1}|  \hat{T} - E^n  | \tilde{\psi}^{n+1}\rangle
+    +	\langle\tilde{\psi}^{n+1}|  E^n + \hat{V}  | \tilde{\psi}^{n+1}\rangle\\
+    \nonumber
+    &=	\langle\tilde{\psi}^{n+1}|  \hat{T} - E^n  | 
+	    -2\hat{G}_{\mu}\big[\hat{V}\psi^n\big]\rangle
+    +	\langle\tilde{\psi}^{n+1}| E^n + \hat{V} |\tilde{\psi}^{n+1}\rangle\\
+    \nonumber
+    &= -\langle\tilde{\psi}^{n+1}| \hat{V} |\psi^{n}\rangle
+    +	\langle\tilde{\psi}^{n+1}| E^n + \hat{V} |\tilde{\psi}^{n+1}\rangle\\
+    \nonumber
+    &= E^{n}\langle\tilde{\psi}^{n+1}|\tilde{\psi}^{n+1}\rangle + 
+	\langle\tilde{\psi}^{n+1}| \hat{V} |\Delta\tilde{\psi}^{n}\rangle
+\end{align}
+}
+
+\only<3>{
     \begin{center}
 	\includegraphics[scale=0.6, clip, viewport = 50 550 540 730]{figures/convergence.pdf}
     \end{center}
+}
 \end{frame}
 
 \begin{frame}
@@ -507,61 +639,61 @@ Density Functional Theory with multiwavelets
     \centering
     Overall accuracy kept at $\epsilon = 10^{-6}$
     \begin{center}
-	\includegraphics[scale=0.6, clip, viewport = 50 550 550 740]{figures/accuracy.pdf}
+	\includegraphics[scale=0.7, clip, viewport = 50 550 550 740]{figures/accuracy.pdf}
     \end{center}
-    \ \\
-    \ \\
-    \ \\
+
+    \vspace{5mm}
+
     \begin{itemize}
         \item All orbitals of all atoms converge within the requested precision
         \item Energies are an order of magnitude more accurate than the orbitals
     \end{itemize}
 \end{frame}
 
-\begin{frame}
-    \frametitle{Accurate calculations}
-    \centering
-    LDA energies in atomic units (Hartree)
-    \begin{table}
-	\tiny
-	\centering
-        \begin{tabular}{lr@{.}lr@{.}lr@{.}lr@{.}lr@{.}lr@{.}l}
-	    \hline
-	    \hline
-	    &
-	    \multicolumn{4}{c}{Helium}&\multicolumn{4}{c}{Neon}&\multicolumn{4}{c}{Argon}\\
-	    &
-	    \multicolumn{2}{c}{HOMO}&\multicolumn{2}{c}{Total}&
-	    \multicolumn{2}{c}{HOMO}&\multicolumn{2}{c}{Total}&
-	    \multicolumn{2}{c}{HOMO}&\multicolumn{2}{c}{Total}\\
-	    \hline
-	    &\multicolumn{4}{c}{}&\multicolumn{4}{c}{}&\multicolumn{4}{c}{}\\
-	    MRChem $\epsilon=10^{-3}$&	-0&570467&-2&8348568&-0&496833&-128&262186&-0&387692&-525&966790\\
-	    MRChem $\epsilon=10^{-5}$&	-0&570424&-2&8348352&-0&498035&-128&233472&-0&382348&-525&946109\\
-	    MRChem $\epsilon=10^{-7}$&	-0&570425&-2&8348836&-0&498034&-128&233481&-0&382330&-525&946196\\
-	    &\multicolumn{4}{c}{}&\multicolumn{4}{c}{}&\multicolumn{4}{c}{}\\
-	    NIST&			-0&570425&-2&8348836&-0&498034&-128&233481&-0&382330&-525&946195\\
-	    &\multicolumn{4}{c}{}&\multicolumn{4}{c}{}&\multicolumn{4}{c}{}\\
-	    aug-cc-pV6Z&		-0&570424&-2&8348289&-0&498027&-128&233402&-0&382323&-525&944181\\
-	    aug-cc-pV5Z&		-0&570417&-2&8347859&-0&498059&-128&232889&-0&382388&-525&942021\\
-	    aug-cc-pVQZ&		-0&570406&-2&8346891&-0&498302&-128&229212&-0&382463&-525&938021\\
-	    aug-cc-pVTZ&		-0&570260&-2&8343489&-0&498859&-128&218459&-0&382838&-525&933682\\
-	    aug-cc-pVDZ&		-0&569386&-2&8291516&-0&498201&-128&176831&-0&382143&-525&915702\\
-	    &\multicolumn{4}{c}{}&\multicolumn{4}{c}{}&\multicolumn{4}{c}{}\\
-	    \hline
-	    \hline
-	\end{tabular}
-    \end{table}
-    \it{NIST: National Institute of Standards and Technology (Basis set limit)}\\
-\ \\
-\ \\
-\ \\
-\begin{itemize}
-    \item We are able to attain \textbf{considerably higher} accuracy than high-quality Gaussian basis sets
-    \item Energies are not variational, but \textbf{basis set limit} within the requested precision
-    \item Calculations are still more expensive than conventional methods
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%    \frametitle{Accurate calculations}
+%    \centering
+%    LDA energies in atomic units (Hartree)
+%    \begin{table}
+%	\tiny
+%	\centering
+%        \begin{tabular}{lr@{.}lr@{.}lr@{.}lr@{.}lr@{.}lr@{.}l}
+%	    \hline
+%	    \hline
+%	    &
+%	    \multicolumn{4}{c}{Helium}&\multicolumn{4}{c}{Neon}&\multicolumn{4}{c}{Argon}\\
+%	    &
+%	    \multicolumn{2}{c}{HOMO}&\multicolumn{2}{c}{Total}&
+%	    \multicolumn{2}{c}{HOMO}&\multicolumn{2}{c}{Total}&
+%	    \multicolumn{2}{c}{HOMO}&\multicolumn{2}{c}{Total}\\
+%	    \hline
+%	    &\multicolumn{4}{c}{}&\multicolumn{4}{c}{}&\multicolumn{4}{c}{}\\
+%	    MRChem $\epsilon=10^{-3}$&	-0&570467&-2&8348568&-0&496833&-128&262186&-0&387692&-525&966790\\
+%	    MRChem $\epsilon=10^{-5}$&	-0&570424&-2&8348352&-0&498035&-128&233472&-0&382348&-525&946109\\
+%	    MRChem $\epsilon=10^{-7}$&	-0&570425&-2&8348836&-0&498034&-128&233481&-0&382330&-525&946196\\
+%	    &\multicolumn{4}{c}{}&\multicolumn{4}{c}{}&\multicolumn{4}{c}{}\\
+%	    NIST&			-0&570425&-2&8348836&-0&498034&-128&233481&-0&382330&-525&946195\\
+%	    &\multicolumn{4}{c}{}&\multicolumn{4}{c}{}&\multicolumn{4}{c}{}\\
+%	    aug-cc-pV6Z&		-0&570424&-2&8348289&-0&498027&-128&233402&-0&382323&-525&944181\\
+%	    aug-cc-pV5Z&		-0&570417&-2&8347859&-0&498059&-128&232889&-0&382388&-525&942021\\
+%	    aug-cc-pVQZ&		-0&570406&-2&8346891&-0&498302&-128&229212&-0&382463&-525&938021\\
+%	    aug-cc-pVTZ&		-0&570260&-2&8343489&-0&498859&-128&218459&-0&382838&-525&933682\\
+%	    aug-cc-pVDZ&		-0&569386&-2&8291516&-0&498201&-128&176831&-0&382143&-525&915702\\
+%	    &\multicolumn{4}{c}{}&\multicolumn{4}{c}{}&\multicolumn{4}{c}{}\\
+%	    \hline
+%	    \hline
+%	\end{tabular}
+%    \end{table}
+%    \it{NIST: National Institute of Standards and Technology (Basis set limit)}\\
+%\ \\
+%\ \\
+%\ \\
+%\begin{itemize}
+%    \item We are able to attain \textbf{considerably higher} accuracy than high-quality Gaussian basis sets
+%    \item Energies are not variational, but \textbf{basis set limit} within the requested precision
+%    \item Calculations are still more expensive than conventional methods
+%\end{itemize}
+%\end{frame}
 
 \begin{frame}
     \frametitle{Orbital localization}
@@ -571,74 +703,101 @@ Density Functional Theory with multiwavelets
 	\nonumber
 	\phi_i(\boldsymbol{r}) = \sum_j U_{ji}^\ast \phi_i(\boldsymbol{r}), \qquad \qquad U^\ast U = UU^\ast = I
     \end{equation}
-    Possible to find matrix $U$ that leads to localized orbitals\\
+
     \begin{columns}
     \begin{column}[b]{0.48\linewidth}
-    \begin{center}
-	\only<1>{\includegraphics[scale=0.3, clip, viewport = 80 260 600 400]{figures/alkane.pdf}}
-	\only<2,3>{\includegraphics[scale=0.3, clip, viewport = 80 560 600 700]{figures/alkane.pdf}}
-	\only<1>{\includegraphics[scale=0.3, clip, viewport = 80 260 600 400]{figures/can_orb_1.pdf}}
-	\only<2,3>{\includegraphics[scale=0.3, clip, viewport = 80 560 600 700]{figures/can_orb_1.pdf}}
-	\only<1>{\includegraphics[scale=0.3, clip, viewport = 80 260 600 400]{figures/can_orb_2.pdf}}
-	\only<2,3>{\includegraphics[scale=0.3, clip, viewport = 80 560 600 700]{figures/can_orb_2.pdf}}
-    \end{center}
+    \centering
+    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/alkane.pdf}\\
+    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/can_orb_1.pdf}\\
+    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/can_orb_2.pdf}\\
+
+    \vspace{2mm}
+
+    \begin{equation}
+        \nonumber
+        \phi_i^{n+1} =\ -2\hat{H}\Bigg[\hat{V}^n\phi_i^n
+        - (\epsilon^n_i - \lambda^n_i)\phi_i^n\Bigg]
+    \end{equation}
     \end{column}
+
     \begin{column}[b]{0.48\linewidth}
-    \begin{center}
-	\only<3>{\includegraphics[scale=0.3, clip, viewport = 80 560 600 700]{figures/loc_orb_1.pdf}\\}
-	\only<3>{\includegraphics[scale=0.3, clip, viewport = 80 560 600 700]{figures/loc_orb_2.pdf}\\}
-	\only<3>{\includegraphics[scale=0.3, clip, viewport = 80 560 600 700]{figures/loc_orb_3.pdf}}
-    \end{center}
+\only<2>{
+    \centering
+    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/loc_orb_1.pdf}\\
+    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/loc_orb_2.pdf}\\
+    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/loc_orb_3.pdf}\\
+
+    \vspace{2mm}
+
+    \begin{equation}
+        \nonumber
+        \phi_i^{n+1} =\ -2\hat{H}\Bigg[\hat{V}^n\phi_i^n
+        - \sum_j(F^n_{ij} - \Lambda^n_{ij})\phi_j^n\Bigg]
+    \end{equation}
+}
     \end{column}
     \end{columns}
+
+    \vspace{6mm}
+
+    \centering
+    \tiny
+    S.F. Boys,
+    {\it Rev. Mod. Phys.}, 
+    \textbf{32:296}
+    (1960)\\
+    J.M. Foster, S.F. Boys,
+    {\it Rev. Mod. Phys.}, 
+    \textbf{32:300}
+    (1960)
 \end{frame}
 
-\begin{frame}
-    \frametitle{Accurate calculations}
-    \centering
-    Replacing the exchange-correlation potential $v_{xc}$ with the exact exchange operator
-    \begin{equation}
-	\nonumber
-	\hat{K}\phi_i(\boldsymbol{r}) = \sum_j \phi_j(\boldsymbol{r}) \int P(\boldsymbol{r}-\boldsymbol{r}')
-	    \left[\phi_i(\boldsymbol{r}')\phi_j(\boldsymbol{r}')\right] d\boldsymbol{r}'
-    \end{equation}
-    gives the Hartree-Fock equations, which can be solved by the same iterative methods
-    \ \\
-    \ \\
-\begin{table}
-\tiny
-\begin{tabular}{cllll}
-\hline   
-\hline
-\multicolumn{5}{c}{Total Hartree-Fock energies in atomic units (Hartree)}\\
-&\multicolumn{1}{c}{H$_2$O}
-&\multicolumn{1}{c}{H$_2$O$_2$}
-&\multicolumn{1}{c}{CO}
-&\multicolumn{1}{c}{CO$_2$}\\
-\hline 
-            		    &               &               &               &               \\
-MRChem $\epsilon=10^{-5}$   & -76.067611455 & -150.85253297 & -112.79087294 & -187.72538886 \\
-MRChem $\epsilon=10^{-6}$   & -76.067556696 & -150.85249254 & -112.79069389 & -187.72541991 \\
-MRChem $\epsilon=10^{-7}$   & -76.067535613 & -150.85246986 & -112.79081263 & -187.72538522 \\
-MRChem $\epsilon=10^{-8}$   & -76.067535431 & -150.85247037 & -112.79081269 & -187.72538560 \\
-            		    &               &               &               &               \\
-Est. HF limit		    & -76.0675      & -150.8525     & -112.7908     & -187.7254     \\
-            		    &               &               &               &               \\
-aug-cc-pCV5Z		    & -76.067379371 & -150.85218780 & -112.79063514 & -187.72508317 \\
-aug-cc-pCVQZ		    & -76.066140457 & -150.84985235 & -112.78919290 & -187.72260431 \\
-            		    &               &               &               &               \\
-\hline   
-\hline   
-\end{tabular}
-\end{table}
+%\begin{frame}
+%    \frametitle{Accurate calculations}
+%    \centering
+%    Replacing the exchange-correlation potential $v_{xc}$ with the exact exchange operator
+%    \begin{equation}
+%	\nonumber
+%	\hat{K}\phi_i(\boldsymbol{r}) = \sum_j \phi_j(\boldsymbol{r}) \int P(\boldsymbol{r}-\boldsymbol{r}')
+%	    \left[\phi_i(\boldsymbol{r}')\phi_j(\boldsymbol{r}')\right] d\boldsymbol{r}'
+%    \end{equation}
+%    gives the Hartree-Fock equations, which can be solved by the same iterative methods
+%    \ \\
+%    \ \\
+%\begin{table}
+%\tiny
+%\begin{tabular}{cllll}
+%\hline   
+%\hline
+%\multicolumn{5}{c}{Total Hartree-Fock energies in atomic units (Hartree)}\\
+%&\multicolumn{1}{c}{H$_2$O}
+%&\multicolumn{1}{c}{H$_2$O$_2$}
+%&\multicolumn{1}{c}{CO}
+%&\multicolumn{1}{c}{CO$_2$}\\
+%\hline 
+%            		    &               &               &               &               \\
+%MRChem $\epsilon=10^{-5}$   & -76.067611455 & -150.85253297 & -112.79087294 & -187.72538886 \\
+%MRChem $\epsilon=10^{-6}$   & -76.067556696 & -150.85249254 & -112.79069389 & -187.72541991 \\
+%MRChem $\epsilon=10^{-7}$   & -76.067535613 & -150.85246986 & -112.79081263 & -187.72538522 \\
+%MRChem $\epsilon=10^{-8}$   & -76.067535431 & -150.85247037 & -112.79081269 & -187.72538560 \\
+%            		    &               &               &               &               \\
+%Est. HF limit		    & -76.0675      & -150.8525     & -112.7908     & -187.7254     \\
+%            		    &               &               &               &               \\
+%aug-cc-pCV5Z		    & -76.067379371 & -150.85218780 & -112.79063514 & -187.72508317 \\
+%aug-cc-pCVQZ		    & -76.066140457 & -150.84985235 & -112.78919290 & -187.72260431 \\
+%            		    &               &               &               &               \\
+%\hline   
+%\hline   
+%\end{tabular}
+%\end{table}
+%\ \\
 \ \\
-\ \\
-\ \\
-\begin{itemize}
-    \item We are able to attain \textbf{considerably higher} accuracy than high-quality Gaussian basis sets
-    \item Energies are not variational, but \textbf{basis set limit} within the requested precision
-    \item Calculations are still more expensive than conventional methods
-\end{itemize}
-\end{frame}
+%\ \\
+%\begin{itemize}
+%    \item We are able to attain \textbf{considerably higher} accuracy than high-quality Gaussian basis sets
+%    \item Energies are not variational, but \textbf{basis set limit} within the requested precision
+%    \item Calculations are still more expensive than conventional methods
+%\end{itemize}
+%\end{frame}
 
 \end{document}
