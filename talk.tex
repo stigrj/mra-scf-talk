@@ -52,6 +52,8 @@ Density Functional Theory with multiwavelets
 \newcommand{\bb}[1]{blue!#1!black}
 \newcommand{\coleq}{red!60!black}
 \newcommand{\du}{\textrm{d}}
+\newcommand{\ud}{\ensuremath{\,\mathrm{d}}}
+\newcommand{\mymin}[1]{\underset{\hbox{\ensuremath{#1}}}{\text{min}}}
 
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 
@@ -249,7 +251,36 @@ Density Functional Theory with multiwavelets
 \end{frame}
 
 \begin{frame}
-    \frametitle{Total energy calculation}
+    \frametitle{Variation principle}
+    \begin{columns}
+    \begin{column}{.50\textwidth}
+    \centering
+    \textbf{Solving the Kohn-Sham equations}
+    \begin{equation}
+	\nonumber
+	\bigg[-\frac{1}{2}\nabla^2 + \hat{V}\bigg]\phi_i(r) = \epsilon_i \phi_i(r)
+    \end{equation}
+    \end{column}
+    \begin{column}{.50\textwidth}
+    \centering
+    \textbf{Equivalent of minimizing the energy}
+    \begin{equation}
+        E_0 = \mymin{\rho}\ E[\rho]
+    \end{equation}
+    \end{column}
+    \end{columns}
+
+    \vspace{5mm}
+
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{The Kohn-Sham equations}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Density Functional Approximations}
 \end{frame}
 
 \begin{frame}
@@ -261,9 +292,9 @@ Density Functional Theory with multiwavelets
 \end{frame}
 
 \begin{frame}
-    \frametitle{Integral formulation of Kohn-Sham}
+    \frametitle{Integral formulation SCF}
     \centering
-    \textbf{Kohn-Sham equations}
+    \textbf{SCF equations}
     \begin{equation}
 	\nonumber
 	\bigg[-\frac{1}{2}\nabla^2 + \hat{V}\bigg]\phi_i(r) = \epsilon_i \phi_i(r)
@@ -271,7 +302,7 @@ Density Functional Theory with multiwavelets
 
     \vspace{5mm}
 
-    rewrite using $\mu_i^2 = -2\epsilon_i$
+    \textbf{Rewrite using} $\mu_i^2 = -2\epsilon_i$
     \begin{align}
 	\nonumber
 	\Big[-\nabla^2 + \mu_i^2\Big]\phi_i(r) =&\ -2\hat{V}\phi_i(r)\\
@@ -304,7 +335,54 @@ Density Functional Theory with multiwavelets
 \end{frame}
 
 \begin{frame}
-    \frametitle{Iterative algorithms}
+    \frametitle{Total energy calculation}
+    \centering
+    \textbf{Kohn-Sham energy expression}
+    \begin{equation}
+        \nonumber
+        E[\rho] = T_s[\rho] + V_{en}[\rho] + J[\rho] + E_{xc}[\rho]
+    \end{equation}
+
+    \vspace{3mm}
+
+    \textbf{Closed-shell system}
+    \begin{equation}
+        \nonumber
+        E = \sum_i^{N/2} 2\langle \phi_i|\hat{T}|\phi_i \rangle
+	    + \int \rho(r)v_{nuc}(r) \ud r
+	    + \frac{1}{2} \int \rho(r)v_{el}(r) \ud r
+	    + \int F_{xc} \ud r
+    \end{equation}
+
+    \vspace{3mm}
+
+    \textbf{Sum of orbital energies}
+    \begin{equation}
+        \nonumber
+        \sum_i^{N/2} 2\epsilon_i 
+	    = \sum_i^{N/2} 2\langle\phi_i|\hat{T} + \hat{V}|\phi_i\rangle
+	    = \sum_i^{N/2} 2\langle\phi_i|\hat{T}|\phi_i\rangle
+	        + \int \rho(r)\Big[v_{nuc}(r)+v_{el}(r)+v_{xc}(r)\Big] \ud r
+    \end{equation}
+
+    \vspace{3mm}
+
+    \textbf{Alternative expression}
+    \begin{equation}
+        \nonumber
+        E = 2 \sum_i^{N/2} \epsilon_i - \frac{1}{2} \int \rho(r)v_{el}(r) \ud r
+	    + \int F_{xc} \ud r - \int \rho(r)v_{xc}(r) \ud r
+    \end{equation}
+\end{frame}
+
+\begin{frame}
+    \centering
+    \Large{Part II:}
+    
+    \vspace{5mm}
+
+    \centering
+    \textbf{\Large{Iterative solution algorithms}}
 \end{frame}
 
 \begin{frame}
@@ -330,14 +408,14 @@ Density Functional Theory with multiwavelets
     \textbf{One-electron Schr\"{o}dinger equation}
     \begin{equation}
         \nonumber
-        \Big[-\frac{1}{2}\nabla^2 + v_{nuc}\Big]\psi(r) = E \psi(r)
+        \Big[-\frac{1}{2}\nabla^2 + \hat{V}\Big]\psi(r) = E \psi(r)
     \end{equation}
 
     \vspace{1mm}
 
     \begin{equation}
         \nonumber
-        \psi = -2\hat{G}_\mu \Big[v_{nuc} \psi \Big]
+        \psi = -2\hat{G}_\mu \Big[\hat{V} \psi \Big]
     \end{equation}
 
     \vspace{5mm}
@@ -346,17 +424,17 @@ Density Functional Theory with multiwavelets
     \tiny
     RJ Harrison, GI Fann, T Yanai, Z Gan and G Beylkin,
     {\it J. Chem. Phys.}, 
-    \textbf{121}, 11587
-    (2004)
+    \textbf{121},
+    11587 (2004)
 \end{frame}
 
 \begin{frame}
-    \frametitle{One-electron systems}
+    \frametitle{One-electron algorithm}
     \centering
     \textbf{Power iteration of the BSH operator}
     \begin{equation}
 	\nonumber
-	\phi^{n+1} = -2G_{\mu}\Big[\hat{V} \phi^n\Big]
+	\psi^{n+1} = -2G^n\Big[\hat{V} \psi^n\Big]
     \end{equation}
 
     \vspace{3mm}
@@ -364,51 +442,47 @@ Density Functional Theory with multiwavelets
     \textbf{Finding roots of the residual}
     \begin{equation}
 	\nonumber
-	f(\phi) = -2G_{\mu}\big[\hat{V} \phi\big] -\phi
+	f(\psi) = -2G^n\big[\hat{V} \psi\big] -\psi
     \end{equation}
 
     \vspace{3mm}
 
-    \pause
     \textbf{Newton's method}
     \begin{equation}
 	\nonumber
-	\phi^{n+1} = \phi^n - \Big[J(\phi^n)\Big]^{-1} f(\phi^n)
+	\psi^{n+1} = \psi^n - \Big[J(\psi^n)\Big]^{-1} f(\psi^n)
     \end{equation}
 
-    \pause
     \begin{equation}
 	\nonumber
-	\phi^{n+1} = \phi^n - \Big[J(\phi^n)\Big]^{-1}
-	\bigg(-2G_{\mu}\Big[\hat{V}\phi^n\Big] - \phi^n\bigg)
+	\psi^{n+1} = \psi^n - \Big[J(\psi^n)\Big]^{-1}
+	\bigg(-2G^n\Big[\hat{V}\psi^n\Big] - \psi^n\bigg)
     \end{equation}
 
     \vspace{3mm}
 
-    \pause
     So the direct power iteration is an "inexact" Newton method\\
-    where we approximate the Jacobian $J(\phi^n) \approx -1$.
+    where we approximate the Jacobian $J(\psi^n) \approx -1$.
 \end{frame}
 
-
 \begin{frame}
-    \frametitle{One-electron systems}
+    \frametitle{One-electron algorithm}
     \begin{columns}
     \begin{column}{.50\textwidth}
     \centering
-    \textbf{Power iteration}
+    \textbf{Initialize BSH operator} $\hat{G}^n$
     \begin{equation}
-	\nonumber
-	\tilde{\psi}^{n+1} = -2\hat{G}_\mu \Big[ \hat{V} \psi^n \Big]
+        \nonumber
+        \mu^n = \sqrt{-2E^n}
     \end{equation}
     \end{column}
 
     \begin{column}{.50\textwidth}
     \centering
-    \textbf{Normalization}
+    \textbf{Power iteration}
     \begin{equation}
 	\nonumber
-	\psi^{n+1} = \frac{\tilde{\psi}^{n+1}}{\| \tilde{\psi}^{n+1} \|}
+	\tilde{\psi}^{n+1} = -2\hat{G}^n \Big[ \hat{V} \psi^n \Big]
     \end{equation}
     \end{column}
     \end{columns}
@@ -418,63 +492,481 @@ Density Functional Theory with multiwavelets
     \begin{columns}
     \begin{column}{.50\textwidth}
     \centering
-    \textbf{Orbital residual}
+    \textbf{Orbital update}
     \begin{equation}
 	\nonumber
-	\Delta\tilde{\psi}^n = \tilde{\psi}^{n+1} - \psi^n
+	\Delta\psi^n = \frac{\tilde{\psi}^{n+1}}{\|\tilde{\psi}^{n+1}\|} - \psi^n
     \end{equation}
     \end{column}
+
     \begin{column}{.50\textwidth}
-\only<2,3>{
     \centering
     \textbf{Energy update}
     \begin{equation}
 	\nonumber
 	\Delta E^n =
-        \frac{\langle\tilde{\psi}^{n+1}|\hat{V}|\Delta\tilde{\psi}^n\rangle}{\|\tilde{\psi}^{n+1}\|}
+        \frac{\langle\tilde{\psi}^{n+1}|\hat{V}|\Delta\tilde{\psi}^n\rangle}
+        {\langle\tilde{\psi}^{n+1}|\tilde{\psi}^{n+1}\rangle}
     \end{equation}
-}
     \end{column}
     \end{columns}
-    
-\only<1>{
+
     \vspace{10mm}
 
-\begin{align}
-    \tilde{E}^{n+1}
-    \nonumber
-    &=	\langle\tilde{\psi}^{n+1}| \hat{T}+\hat{V} | \tilde{\psi}^{n+1}\rangle\\
-    \nonumber
-    &=	\langle\tilde{\psi}^{n+1}|  \hat{T} - E^n  | \tilde{\psi}^{n+1}\rangle
-    +	\langle\tilde{\psi}^{n+1}|  E^n + \hat{V}  | \tilde{\psi}^{n+1}\rangle\\
-    \nonumber
-    &=	\langle\tilde{\psi}^{n+1}|  \hat{T} - E^n  | 
-	    -2\hat{G}_{\mu}\big[\hat{V}\psi^n\big]\rangle
-    +	\langle\tilde{\psi}^{n+1}| E^n + \hat{V} |\tilde{\psi}^{n+1}\rangle\\
-    \nonumber
-    &= -\langle\tilde{\psi}^{n+1}| \hat{V} |\psi^{n}\rangle
-    +	\langle\tilde{\psi}^{n+1}| E^n + \hat{V} |\tilde{\psi}^{n+1}\rangle\\
-    \nonumber
-    &= E^{n}\langle\tilde{\psi}^{n+1}|\tilde{\psi}^{n+1}\rangle + 
-	\langle\tilde{\psi}^{n+1}| \hat{V} |\Delta\tilde{\psi}^{n}\rangle
-\end{align}
-}
+    \centering
+    \textbf{Update wavefunction and energy}
+    \begin{align}
+	\nonumber
+        \psi^{n+1}  &= \psi^n + \Delta \psi^n\\
+	\nonumber
+        E^{n+1}     &= E^n + \Delta E^n
+    \end{align}
+\end{frame}
 
-\only<3>{
-    \begin{center}
-	\includegraphics[scale=0.6, clip, viewport = 50 550 540 730]{figures/convergence.pdf}
-    \end{center}
-}
+\begin{frame}
+    \frametitle{Energy update}
+    \centering
+    \textbf{Using the relation}
+    \begin{equation}
+        \nonumber
+        -2\hat{G}^n = \big(\hat{T} - E^n\big)^{-1}
+    \end{equation}
+
+    \vspace{5mm}
+
+    \begin{align}
+        \tilde{E}^{n+1}
+        \nonumber
+        &=	\langle\tilde{\psi}^{n+1}| \hat{T}+\hat{V} | \tilde{\psi}^{n+1}\rangle\\
+        \nonumber
+        &=	\langle\tilde{\psi}^{n+1}|  \hat{T} - E^n  | \tilde{\psi}^{n+1}\rangle
+        +	\langle\tilde{\psi}^{n+1}|  E^n + \hat{V}  | \tilde{\psi}^{n+1}\rangle\\
+        \nonumber
+        &=	\langle\tilde{\psi}^{n+1}|  \hat{T} - E^n  | 
+	        -2\hat{G}^n\big[\hat{V}\psi^n\big]\rangle
+        +	\langle\tilde{\psi}^{n+1}| E^n + \hat{V} |\tilde{\psi}^{n+1}\rangle\\
+        \nonumber
+        &= -\langle\tilde{\psi}^{n+1}| \hat{V} |\psi^{n}\rangle
+        +	\langle\tilde{\psi}^{n+1}| E^n + \hat{V} |\tilde{\psi}^{n+1}\rangle\\
+        \nonumber
+        &= E^{n}\langle\tilde{\psi}^{n+1}|\tilde{\psi}^{n+1}\rangle + 
+	    \langle\tilde{\psi}^{n+1}| \hat{V} |\Delta\tilde{\psi}^{n}\rangle
+    \end{align}
+
+    \vspace{8mm}
+
+    \centering
+    Energy expression without the kinetic operator
+    \begin{equation}
+        \nonumber
+        E^{n+1} = E^{n} + 
+        \frac{\langle\tilde{\psi}^{n+1}| \hat{V} |\Delta\tilde{\psi}^{n}\rangle}
+        {\langle\tilde{\psi}^{n+1}|\tilde{\psi}^{n+1}\rangle}
+    \end{equation}
 \end{frame}
 
 \begin{frame}
     \frametitle{Hydrogen atom}
-    \only<1>{\includegraphics[viewport = 50 430 300 640, clip, scale=1.2]{figures/s1Orb_1.pdf}}
-    \only<2>{\includegraphics[viewport = 50 430 300 640, clip, scale=1.2]{figures/s1Orb_2.pdf}}
-    \only<3>{\includegraphics[viewport = 50 430 300 640, clip, scale=1.2]{figures/s1Orb_3.pdf}}
-    \only<4>{\includegraphics[viewport = 50 430 300 640, clip, scale=1.2]{figures/s1Orb_4.pdf}}
-    \only<5>{\includegraphics[viewport = 50 430 300 640, clip, scale=1.2]{figures/s1Orb_5.pdf}}
-    \only<6>{\includegraphics[viewport = 50 430 300 640, clip, scale=1.2]{figures/s1Orb_10.pdf}}
+    \begin{center}
+	\includegraphics[scale=1.0, clip, viewport = 50 550 300 730]{figures/h_convergence.pdf}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Krylov subspace Accelerated Inexact Newton (KAIN)}
+    \begin{columns}
+    \begin{column}[b]{0.5\textwidth}
+    \centering
+    \textbf{Wavefunction history}
+    \begin{equation}
+	\nonumber
+	\psi^0, \psi^1, \dots, \psi^n
+    \end{equation}
+    \end{column}
+    \begin{column}[b]{0.5\textwidth}
+    \centering
+    \textbf{Residual history}
+    \begin{equation}
+	\nonumber
+	f(\psi^0), f(\psi^1), \dots, f(\psi^n)
+    \end{equation}
+    \end{column}
+    \end{columns}
+
+    \vspace{5mm}
+
+    \centering
+    \textbf{Used to find a better approximation to the Jacobian}
+
+    \vspace{10mm}
+
+    The new iterative step is then expanded in the Krylov subspace
+    \begin{equation}
+	\nonumber
+	\delta\psi^n = \sum_i c_i\Big(\psi^i-\psi^n\Big) - 
+	\sum_i c_i\Big(f(\psi^i) - f(\psi^n)\Big) - f(\psi^n)
+    \end{equation}
+
+    \vspace{5mm}
+
+    by solving the linear system $Ac = b$
+    \begin{align}
+	\nonumber
+	A_{ij} &= \langle\psi^n-\psi^i|f(\psi^n) - f(\psi^j)\rangle\\
+	\nonumber
+	b_{i}  &= \langle\psi^n-\psi^i|f(\psi^n)\rangle
+    \end{align}
+
+    \vspace{5mm}
+
+    \centering
+    \tiny
+    RJ Harrison,
+    {\it J. Comput. Chem.}, 
+    \textbf{25(3)},
+    328 (2004)
+\end{frame}
+
+\begin{frame}
+    \frametitle{One-electron algorithm}
+
+    \begin{columns}
+    \begin{column}{.50\textwidth}
+    \centering
+    \textbf{Initialize BSH operator} $\hat{G}^n$
+    \begin{equation}
+        \nonumber
+        \mu^n = \sqrt{-2E^n}
+    \end{equation}
+    \end{column}
+
+    \begin{column}{.50\textwidth}
+    \centering
+    \textbf{Power iteration}
+    \begin{equation}
+	\nonumber
+	\tilde{\psi}^{n+1} = -2\hat{G}^n \Big[ \hat{V} \psi^n \Big]
+    \end{equation}
+    \end{column}
+    \end{columns}
+
+    \vspace{5mm}
+
+    \begin{columns}
+    \begin{column}{.50\textwidth}
+    \centering
+    \textbf{Orbital update}
+    \begin{equation}
+	\nonumber
+	\Delta\psi^n = \frac{\tilde{\psi}^{n+1}}{\|\tilde{\psi}^{n+1}\|} - \psi^n
+    \end{equation}
+    \end{column}
+
+    \begin{column}{.50\textwidth}
+    \centering
+    \textbf{Energy update}
+    \begin{equation}
+	\nonumber
+	\Delta E^n =
+        \frac{\langle\tilde{\psi}^{n+1}|\hat{V}|\Delta\tilde{\psi}^n\rangle}
+        {\langle\tilde{\psi}^{n+1}|\tilde{\psi}^{n+1}\rangle}
+    \end{equation}
+    \end{column}
+    \end{columns}
+
+    \vspace{5mm}
+
+    \centering
+    \textbf{KAIN update}
+    \begin{equation}
+	\nonumber
+        \left(
+        \begin{matrix}
+        \delta \psi\\
+        \delta E
+        \end{matrix}
+        \right)^{n+1}
+        \longleftarrow
+        \left(
+        \begin{matrix}
+        \psi\\
+        E
+        \end{matrix}
+        \right)^n
+        ,
+        \left(
+        \begin{matrix}
+        \Delta \psi\\
+        \Delta E
+        \end{matrix}
+        \right)^n
+    \end{equation}
+
+    \vspace{5mm}
+
+    \textbf{Update wavefunction and energy}
+    \begin{align}
+	\nonumber
+        \psi^{n+1}  &= \psi^n + \delta \psi^n\\
+	\nonumber
+        E^{n+1}     &= E^n + \delta E^n
+    \end{align}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Hydrogen atom}
+    \begin{center}
+	\includegraphics[scale=1.0, clip, viewport = 300 550 560 740]{figures/h_convergence.pdf}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Many-electron systems}
+    \centering
+    \textbf{Potential operator}
+    \begin{equation}
+        \nonumber
+        \hat{V} = v_{nuc}(r) + v_{el}(r) + v_{xc}(r) - \hat{K}
+    \end{equation}
+
+    \vspace{10mm}
+
+    \begin{columns}
+    \begin{column}[b]{0.5\textwidth}
+    \centering
+    \textbf{Classical nuclear}
+    \begin{equation}
+        \nonumber
+	v_{nuc}(r) = -\sum_I\frac{Z_I}{|r-R_I|}
+    \end{equation}
+    \end{column}
+
+    \begin{column}[b]{0.5\textwidth}
+    \centering
+    \textbf{Classical Coulomb}
+    \begin{equation}
+        \nonumber
+        v_{el}(r) = \int \frac{\rho(r')}{4\pi|r-r'|} \ud r'
+    \end{equation}
+    \end{column}
+    \end{columns}
+
+    \vspace{5mm}
+
+    \begin{columns}
+    \begin{column}[b]{0.5\textwidth}
+    \centering
+    \textbf{Exchange-Correlation}
+    \begin{equation}
+        \nonumber
+        v_{xc}(r)
+        = \frac{\delta E_{xc}}{\delta \rho}
+        = \frac{\partial F_{xc}}{\partial \rho} - \nabla \cdot \frac{\partial F_{xc}}{\partial \nabla\rho}
+    \end{equation}
+    \end{column}
+
+    \begin{column}[b]{0.5\textwidth}
+    \centering
+    \textbf{Hartree-Fock exchange}
+    \begin{equation}
+        \nonumber
+        \hat{K}\phi_p(r) = \sum_i \phi_i(r) \int \frac{\phi_i^\dagger(r')\phi_p(r')}{4\pi|r-r'|} \ud r'
+    \end{equation}
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Orthonormalization}
+    \centering
+    \textbf{Straightforward iteration of the Kohn-Sham equations}
+    \begin{equation}
+        \nonumber
+        \tilde{\phi}_i^{n+1} = -2\hat{G}^n \bigg[\hat{V}^n\phi_i^n\bigg]
+    \end{equation}
+    \textbf{brings all orbitals to the lowest energy eigenfunction}
+    
+    \vspace{15mm}
+
+    \textbf{Orthonormality must be imposed}
+    \begin{equation}
+        \nonumber
+        \tilde{S}_{ij} = \langle\tilde{\phi}_i|\tilde{\phi}_j\rangle = \delta_{ij}
+    \end{equation}
+
+    \vspace{5mm}
+
+    \begin{columns}
+    \begin{column}[b]{0.5\linewidth}
+    \centering
+    \textbf{Gram-Schmidt}
+    \begin{equation}
+	\nonumber
+	\phi_i = \Big(1 - \sum_{j<i}|\phi_j\rangle\langle\phi_j|\Big)\tilde{\phi}_i
+    \end{equation}
+    \end{column}
+
+    \begin{column}[b]{0.5\linewidth}
+    \centering
+    \textbf{L\"{o}wdin orthonormalization}
+    \begin{equation}
+	\nonumber
+	\phi_i = \sum_j \tilde{S}_{ij}^{-1/2}\tilde{\phi}_j
+    \end{equation}
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Canonical orbitals}
+    Derive non-canonical equations w/lambda
+    Define Fock matrix
+    Diagonalize Fock matrix
+\end{frame}
+
+\begin{frame}
+    \frametitle{Localized orbitals}
+    \centering
+    Total energy invariant under unitary transformations among occupied orbitals
+    \begin{equation}
+	\nonumber
+	\phi_i = \sum_j L_{ij} \phi_i, \qquad \qquad L^\ast L = LL^\ast = I
+    \end{equation}
+
+    \begin{columns}
+    \begin{column}[b]{0.48\linewidth}
+    \centering
+    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/alkane.pdf}\\
+    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/can_orb_1.pdf}\\
+    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/can_orb_2.pdf}\\
+
+    \vspace{2mm}
+
+    \begin{equation}
+        \nonumber
+        \phi_i^{n+1} =\ -2\hat{G}^n\Bigg[\hat{V}^n\phi_i^n
+        - (\epsilon^n_i - \lambda^n_i)\phi_i^n\Bigg]
+    \end{equation}
+    \end{column}
+
+    \begin{column}[b]{0.48\linewidth}
+\only<2>{
+    \centering
+    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/loc_orb_1.pdf}\\
+    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/loc_orb_2.pdf}\\
+    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/loc_orb_3.pdf}\\
+
+    \vspace{2mm}
+
+    \begin{equation}
+        \nonumber
+        \phi_i^{n+1} =\ -2\hat{G}^n\Bigg[\hat{V}^n\phi_i^n
+        - \sum_j(F^n_{ij} - \Lambda^n_{ij})\phi_j^n\Bigg]
+    \end{equation}
+}
+    \end{column}
+    \end{columns}
+
+    \vspace{6mm}
+
+    \centering
+    \tiny
+    S.F. Boys,
+    {\it Rev. Mod. Phys.}, 
+    \textbf{32:296}
+    (1960)\\
+    J.M. Foster, S.F. Boys,
+    {\it Rev. Mod. Phys.}, 
+    \textbf{32:300}
+    (1960)
+\end{frame}
+
+\begin{frame}
+    \frametitle{Orthonormalization}
+    \centering
+    \textbf{The non-canonical Kohn-Sham equations}
+    \begin{equation}
+        \nonumber
+        \tilde{\phi}_i^{n+1} = -2\hat{G}^n \bigg[\hat{V}^n\phi_i^n -
+        \sum_j\big(F_{ij} - \Lambda_{ij}\big)\phi_j\bigg]
+    \end{equation}
+    
+    \vspace{10mm}
+
+    \textbf{Overlap matrix}
+    \begin{equation}
+        \nonumber
+        \tilde{S}_{ij} = \langle\tilde{\phi}_i|\tilde{\phi}_j\rangle
+    \end{equation}
+
+    \vspace{10mm}
+
+    \begin{columns}
+    \begin{column}[b]{0.3\linewidth}
+    \centering
+    \textbf{Diagonalize}
+    \begin{equation}
+	\nonumber
+        U = C\tilde{S}^{-1/2}
+    \end{equation}
+    \end{column}
+
+    \begin{column}[b]{0.4\linewidth}
+    \centering
+    \textbf{Localize}
+    \begin{equation}
+	\nonumber
+        U = L\tilde{S}^{-1/2}
+    \end{equation}
+    \end{column}
+
+    \begin{column}[b]{0.3\linewidth}
+    \centering
+    \textbf{Orthonormalize}
+    \begin{equation}
+	\nonumber
+        U = \tilde{S}^{-1/2}
+    \end{equation}
+    \end{column}
+    \end{columns}
+
+    \vspace{10mm}
+
+    \centering
+    \textbf{Orbital rotation}
+    \begin{equation}
+	\nonumber
+	\phi_i = \sum_j U_{ij} \tilde{\phi}_j \qquad \qquad F = U\tilde{F}U^{-1}
+    \end{equation}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Many-electron systems}
+    SCF algorithm I
+\end{frame}
+
+\begin{frame}
+    \frametitle{Many-electron systems}
+    \centering
+    \textbf{Overall accuracy kept at} $\epsilon = 10^{-6}$
+    \begin{center}
+	\includegraphics[scale=0.8, clip, viewport = 50 550 300 740]{figures/accuracy.pdf}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Many-electron systems}
+    Calculation of Fock matrix
+\end{frame}
+
+\begin{frame}
+    \frametitle{Many-electron systems}
+    SCF algorithm II
+\end{frame}
+
+\begin{frame}
+    \frametitle{Many-electron systems}
+    Results
 \end{frame}
 
 \begin{frame}
@@ -634,22 +1126,6 @@ Density Functional Theory with multiwavelets
     \end{center}
 \end{frame}
 
-\begin{frame}
-    \frametitle{Many-electron systems}
-    \centering
-    Overall accuracy kept at $\epsilon = 10^{-6}$
-    \begin{center}
-	\includegraphics[scale=0.7, clip, viewport = 50 550 550 740]{figures/accuracy.pdf}
-    \end{center}
-
-    \vspace{5mm}
-
-    \begin{itemize}
-        \item All orbitals of all atoms converge within the requested precision
-        \item Energies are an order of magnitude more accurate than the orbitals
-    \end{itemize}
-\end{frame}
-
 %\begin{frame}
 %    \frametitle{Accurate calculations}
 %    \centering
@@ -694,63 +1170,6 @@ Density Functional Theory with multiwavelets
 %    \item Calculations are still more expensive than conventional methods
 %\end{itemize}
 %\end{frame}
-
-\begin{frame}
-    \frametitle{Orbital localization}
-    \centering
-    Total energy invariant under unitary transformations among occupied orbitals
-    \begin{equation}
-	\nonumber
-	\phi_i(\boldsymbol{r}) = \sum_j U_{ji}^\ast \phi_i(\boldsymbol{r}), \qquad \qquad U^\ast U = UU^\ast = I
-    \end{equation}
-
-    \begin{columns}
-    \begin{column}[b]{0.48\linewidth}
-    \centering
-    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/alkane.pdf}\\
-    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/can_orb_1.pdf}\\
-    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/can_orb_2.pdf}\\
-
-    \vspace{2mm}
-
-    \begin{equation}
-        \nonumber
-        \phi_i^{n+1} =\ -2\hat{H}\Bigg[\hat{V}^n\phi_i^n
-        - (\epsilon^n_i - \lambda^n_i)\phi_i^n\Bigg]
-    \end{equation}
-    \end{column}
-
-    \begin{column}[b]{0.48\linewidth}
-\only<2>{
-    \centering
-    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/loc_orb_1.pdf}\\
-    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/loc_orb_2.pdf}\\
-    \includegraphics[scale=0.25, clip, viewport = 80 560 600 700]{figures/loc_orb_3.pdf}\\
-
-    \vspace{2mm}
-
-    \begin{equation}
-        \nonumber
-        \phi_i^{n+1} =\ -2\hat{H}\Bigg[\hat{V}^n\phi_i^n
-        - \sum_j(F^n_{ij} - \Lambda^n_{ij})\phi_j^n\Bigg]
-    \end{equation}
-}
-    \end{column}
-    \end{columns}
-
-    \vspace{6mm}
-
-    \centering
-    \tiny
-    S.F. Boys,
-    {\it Rev. Mod. Phys.}, 
-    \textbf{32:296}
-    (1960)\\
-    J.M. Foster, S.F. Boys,
-    {\it Rev. Mod. Phys.}, 
-    \textbf{32:300}
-    (1960)
-\end{frame}
 
 %\begin{frame}
 %    \frametitle{Accurate calculations}
