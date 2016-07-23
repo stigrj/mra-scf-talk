@@ -68,70 +68,48 @@ Density Functional Theory with multiwavelets
 }
 
 \begin{frame}
-    \frametitle{Outlook}
-    \begin{itemize}
-	\item   \textbf{Density Functional Theory}
-	\begin{itemize}
-	    \item General DFT
-            \item Hohenberg-Kohn
-            \item Kohn-Sham
-            \item XC energy and potential
-            \item Kohn-Sham equations
-            \item Total energy
-	    \item Integral reformulation
-	\end{itemize}
-	\ \\
-	\ \\
-	\item   \textbf{Iterative algorithms}
-	\begin{itemize}
-            \item One-electron system
-            \item Hydrogen atom
-            \item Energy update
-            \item KAIN
-            \item Many-electron systems
-            \item Fock/KS operator
-            \item Orthonormalizations
-            \item Fock matrix without kinetic operator
-            \item Total energy without kinetic operator
-            \item Orbital localization
-            \item Lambda update
-            \item Quadratic energy
-            \item Final algorithm
-	\end{itemize}
-    \end{itemize}
+    \centering
+    \Large{Part I:}
+    
+    \vspace{5mm}
+
+    \centering
+    \textbf{\Large{Density Functional Theory}}
 \end{frame}
 
 \begin{frame}
     \frametitle{The molecular Schr\"{o}dinger equation}
     \ \\
+    {\large
     \begin{equation}
 	\nonumber
 	\hat{H}\psi = E\psi
     \end{equation}
-    \ \\
+    }
+
     \begin{equation}
 	\nonumber
-	\hat{H} =   -\sum_I \frac{\nabla^2}{2M_I} - \sum_i \frac{\nabla^2}{2}
-		    +\sum_{I>J} \frac{Z_IZ_J}{|\boldsymbol{R}_I-\boldsymbol{R}_J|} 
-		    -\sum_{i,I} \frac{Z_I}{|\boldsymbol{r}_i-\boldsymbol{R}_I|} 
-		    +\sum_{i>j} \frac{1}{|\boldsymbol{r}_i-\boldsymbol{r}_j|} 
+	\hat{H} =
+        - \sum_I \frac{\nabla^2}{2M_I} - \sum_i \frac{\nabla^2}{2}
+	+ \sum_{I>J} \frac{Z_IZ_J}{|\boldsymbol{R}_I-\boldsymbol{R}_J|} 
+	- \sum_{i,I} \frac{Z_I}{|\boldsymbol{r}_i-\boldsymbol{R}_I|} 
+	+ \sum_{i>j} \frac{1}{|\boldsymbol{r}_i-\boldsymbol{r}_j|} 
     \end{equation}
-    \ \\
-    \ \\
-    \ \\
+
+    \vspace{5mm}
+
     \centering
     For an $N$-particle problem, the wave function is $3N$-dimensional
     \begin{equation}
 	\nonumber
 	\psi = \psi(\boldsymbol{r}_1,\boldsymbol{r}_2,\dots,\boldsymbol{r}_N)
     \end{equation}
-    \ \\
-    \ \\
-    \ \\
+
+    \vspace{5mm}
+
     \pause
     \centering
-    $\beta$-Carotene ($C_{40}H_{56}$) has 296 electrons and an 888-dimensional
-    electronic wavefunction!
+    $\beta$-Carotene ($C_{40}H_{56}$) has 296 electrons and an 888-dimensional wavefunction!
     \only<1>{
     \begin{center}
     %white background
@@ -309,7 +287,7 @@ Density Functional Theory with multiwavelets
 	\nonumber
 	\phi_i(r) =&-2\Big[-\nabla^2 + \mu_i^2\Big]^{-1}\hat{V}\phi_i(r)\\
 	\nonumber
-	\phi_i =&-2\hat{G}_{\mu_i}\Big[\hat{V}\phi_i\Big]
+	\phi_i =&-2\hat{G}_i\Big[\hat{V}\phi_i\Big]
     \end{align}
 
     \vspace{5mm}
@@ -317,7 +295,7 @@ Density Functional Theory with multiwavelets
     \textbf{Bound-State Helmholtz operator}
     \begin{equation}
 	\nonumber
-	\hat{G}_{\mu_i}f(r) = \int \frac{e^{-\mu_i |r-r'|}}{4\pi|r-r'|}f(r')dr'
+	\hat{G}_if(r) = \int \frac{e^{-\mu_i |r-r'|}}{4\pi|r-r'|}f(r')dr'
     \end{equation}
 
     \vspace{5mm}
@@ -415,7 +393,7 @@ Density Functional Theory with multiwavelets
 
     \begin{equation}
         \nonumber
-        \psi = -2\hat{G}_\mu \Big[\hat{V} \psi \Big]
+        \psi = -2\hat{G} \Big[\hat{V} \psi \Big]
     \end{equation}
 
     \vspace{5mm}
@@ -492,7 +470,7 @@ Density Functional Theory with multiwavelets
     \begin{columns}
     \begin{column}{.50\textwidth}
     \centering
-    \textbf{Orbital update}
+    \textbf{Wavefunction update}
     \begin{equation}
 	\nonumber
 	\Delta\psi^n = \frac{\tilde{\psi}^{n+1}}{\|\tilde{\psi}^{n+1}\|} - \psi^n
@@ -534,6 +512,7 @@ Density Functional Theory with multiwavelets
 
     \vspace{5mm}
 
+    \textbf{Manipulating the energy expression}
     \begin{align}
         \tilde{E}^{n+1}
         \nonumber
@@ -556,7 +535,7 @@ Density Functional Theory with multiwavelets
     \vspace{8mm}
 
     \centering
-    Energy expression without the kinetic operator
+    \textbf{Energy without kinetic operator}
     \begin{equation}
         \nonumber
         E^{n+1} = E^{n} + 
@@ -655,7 +634,7 @@ Density Functional Theory with multiwavelets
     \begin{columns}
     \begin{column}{.50\textwidth}
     \centering
-    \textbf{Orbital update}
+    \textbf{Wavefunction update}
     \begin{equation}
 	\nonumber
 	\Delta\psi^n = \frac{\tilde{\psi}^{n+1}}{\|\tilde{\psi}^{n+1}\|} - \psi^n
@@ -782,7 +761,7 @@ Density Functional Theory with multiwavelets
     \textbf{Straightforward iteration of the Kohn-Sham equations}
     \begin{equation}
         \nonumber
-        \tilde{\phi}_i^{n+1} = -2\hat{G}^n \bigg[\hat{V}^n\phi_i^n\bigg]
+        \tilde{\phi}_i^{n+1} = -2\hat{G}_i^n \bigg[\hat{V}^n\phi_i^n\bigg]
     \end{equation}
     \textbf{brings all orbitals to the lowest energy eigenfunction}
     
@@ -818,10 +797,56 @@ Density Functional Theory with multiwavelets
 \end{frame}
 
 \begin{frame}
-    \frametitle{Canonical orbitals}
-    Derive non-canonical equations w/lambda
-    Define Fock matrix
-    Diagonalize Fock matrix
+    \frametitle{Non-canonical orbitals}
+    \centering
+    \textbf{The non-canonical Kohn-Sham equations}
+    \begin{equation}
+        \nonumber
+        \hat{F}|\phi_i\rangle 
+        = \bigg[\sum_j|\phi_j\rangle\langle\phi_j|\bigg]\hat{F}|\phi_i\rangle
+        = \sum_jF_{ji}|\phi_j\rangle
+    \end{equation}
+
+    \vspace{5mm}
+
+    \textbf{Rewrite using} $\mu_i^2 = -2\lambda_i$
+    \begin{align}
+        \nonumber
+        \bigg[-\frac{1}{2}\nabla^2 + \hat{V}\bigg]\phi_i
+        &= \sum_jF_{ji}\phi_j\\
+        \nonumber
+        \bigg[-\nabla^2 + \mu_i^2\bigg]\phi_i 
+        &= -2\bigg[\hat{V}\phi_i - \sum_j\big(F_{ji} -
+        \lambda_i\delta_{ji}\big)\phi_j\bigg]\\
+        \nonumber
+        \phi_i
+        &= -2\hat{G}_i\bigg[\hat{V}\phi_i - \sum_j\big(F_{ji} -
+        \Lambda_{ji}\big)\phi_j\bigg]
+    \end{align}
+
+    \vspace{5mm}
+
+    \begin{columns}
+    \begin{column}[b]{0.48\linewidth}
+    \centering
+    \textbf{Fock matrix}
+    \begin{equation}
+        \nonumber
+        F_{ij} = \langle\phi_i|\hat{T} + \hat{V}|\phi_j\rangle
+    \end{equation}
+    \end{column}
+
+    \begin{column}[b]{0.48\linewidth}
+    \centering
+    \textbf{Kinetic matrix}
+    \begin{equation}
+        \nonumber
+        T_{ij}
+        = \langle\phi_i|\hat{T}|\phi_j\rangle
+        = \frac{1}{2}\langle\nabla\phi_i|\nabla\phi_j\rangle
+    \end{equation}
+    \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}
@@ -844,8 +869,8 @@ Density Functional Theory with multiwavelets
 
     \begin{equation}
         \nonumber
-        \phi_i^{n+1} =\ -2\hat{G}^n\Bigg[\hat{V}^n\phi_i^n
-        - (\epsilon^n_i - \lambda^n_i)\phi_i^n\Bigg]
+        \phi_i =\ -2\hat{G}_i\Bigg[\hat{V}\phi_i
+        - (\epsilon_i - \lambda_i)\phi_i\Bigg]
     \end{equation}
     \end{column}
 
@@ -860,8 +885,8 @@ Density Functional Theory with multiwavelets
 
     \begin{equation}
         \nonumber
-        \phi_i^{n+1} =\ -2\hat{G}^n\Bigg[\hat{V}^n\phi_i^n
-        - \sum_j(F^n_{ij} - \Lambda^n_{ij})\phi_j^n\Bigg]
+        \phi_i =\ -2\hat{G}_i\Bigg[\hat{V}\phi_i
+        - \sum_j(F_{ji} - \Lambda_{ji})\phi_j\Bigg]
     \end{equation}
 }
     \end{column}
@@ -881,236 +906,121 @@ Density Functional Theory with multiwavelets
     (1960)
 \end{frame}
 
+%\begin{frame}
+%    \frametitle{Orthonormalization}
+%    \centering
+%    \textbf{The non-canonical Kohn-Sham equations}
+%    \begin{equation}
+%        \nonumber
+%        \tilde{\phi}_i^{n+1} = -2\hat{G}_i^n \bigg[\hat{V}^n\phi_i^n -
+%        \sum_j\big(F_{ji}^n - \Lambda_{ji}^n\big)\phi_j^n\bigg]
+%    \end{equation}
+%    
+%    \vspace{10mm}
+%
+%    \textbf{Overlap matrix}
+%    \begin{equation}
+%        \nonumber
+%        \tilde{S}_{ij} = \langle\tilde{\phi}_i|\tilde{\phi}_j\rangle
+%    \end{equation}
+%
+%    \vspace{10mm}
+%
+%    \begin{columns}
+%    \begin{column}[b]{0.3\linewidth}
+%    \centering
+%    \textbf{Diagonalize}
+%    \begin{equation}
+%	\nonumber
+%        U = D\tilde{S}^{-1/2}
+%    \end{equation}
+%    \end{column}
+%
+%    \begin{column}[b]{0.4\linewidth}
+%    \centering
+%    \textbf{Localize}
+%    \begin{equation}
+%	\nonumber
+%        U = L\tilde{S}^{-1/2}
+%    \end{equation}
+%    \end{column}
+%
+%    \begin{column}[b]{0.3\linewidth}
+%    \centering
+%    \textbf{Orthonormalize}
+%    \begin{equation}
+%	\nonumber
+%        U = \tilde{S}^{-1/2}
+%    \end{equation}
+%    \end{column}
+%    \end{columns}
+%
+%    \vspace{10mm}
+%
+%    \centering
+%    \textbf{Orbital rotation}
+%    \begin{equation}
+%	\nonumber
+%	\phi_i = \sum_j U_{ij} \tilde{\phi}_j \qquad \qquad F = U\tilde{F}U^{-1}
+%    \end{equation}
+%\end{frame}
+
 \begin{frame}
-    \frametitle{Orthonormalization}
+    \frametitle{Many-electron algorithm I}
     \centering
-    \textbf{The non-canonical Kohn-Sham equations}
-    \begin{equation}
-        \nonumber
-        \tilde{\phi}_i^{n+1} = -2\hat{G}^n \bigg[\hat{V}^n\phi_i^n -
-        \sum_j\big(F_{ij} - \Lambda_{ij}\big)\phi_j\bigg]
-    \end{equation}
-    
-    \vspace{10mm}
+    \textbf{Setup Fock operator} $\hat{F}^n$
 
-    \textbf{Overlap matrix}
-    \begin{equation}
-        \nonumber
-        \tilde{S}_{ij} = \langle\tilde{\phi}_i|\tilde{\phi}_j\rangle
-    \end{equation}
+    \vspace{5mm}
 
-    \vspace{10mm}
+    \textbf{Compute Fock matrix} $F_{ij}^n = \langle\phi_i^n|\hat{F}^n|\phi_j^n\rangle$
 
-    \begin{columns}
-    \begin{column}[b]{0.3\linewidth}
-    \centering
-    \textbf{Diagonalize}
+    \vspace{5mm}
+
+    \textbf{Diagonalize/Localize}
+
+    \vspace{5mm}
+
+    \textbf{Iterate BSH operators with} $\lambda_i^n \approx F_{ii}^n$
     \begin{equation}
 	\nonumber
-        U = C\tilde{S}^{-1/2}
+        \tilde{\phi}_i^{n+1} = -2\hat{G}_i^n \bigg[\hat{V}^n\phi_i^n -
+        \sum_j\big(F_{ji}^n - \Lambda_{ji}^n\big)\phi_j^n\bigg]
     \end{equation}
-    \end{column}
 
-    \begin{column}[b]{0.4\linewidth}
-    \centering
-    \textbf{Localize}
-    \begin{equation}
-	\nonumber
-        U = L\tilde{S}^{-1/2}
-    \end{equation}
-    \end{column}
+    \vspace{2mm}
 
-    \begin{column}[b]{0.3\linewidth}
-    \centering
-    \textbf{Orthonormalize}
-    \begin{equation}
-	\nonumber
-        U = \tilde{S}^{-1/2}
-    \end{equation}
-    \end{column}
-    \end{columns}
+    \textbf{Orthonormalize} $S^{-1/2}$
 
-    \vspace{10mm}
+    \vspace{5mm}
 
-    \centering
-    \textbf{Orbital rotation}
-    \begin{equation}
-	\nonumber
-	\phi_i = \sum_j U_{ij} \tilde{\phi}_j \qquad \qquad F = U\tilde{F}U^{-1}
-    \end{equation}
+    \textbf{Compute KAIN update} $\delta\phi_i^n$
+
+    \vspace{5mm}
+
+    \textbf{Orthonormalize} $S^{-1/2}$
+
 \end{frame}
 
 \begin{frame}
-    \frametitle{Many-electron systems}
-    SCF algorithm I
-\end{frame}
-
-\begin{frame}
-    \frametitle{Many-electron systems}
+    \frametitle{Many-electron algorithm I}
     \centering
     \textbf{Overall accuracy kept at} $\epsilon = 10^{-6}$
     \begin{center}
-	\includegraphics[scale=0.8, clip, viewport = 50 550 300 740]{figures/accuracy.pdf}
+	\includegraphics[scale=1.0, clip, viewport = 50 550 300 740]{figures/accuracy.pdf}
     \end{center}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Many-electron systems}
-    Calculation of Fock matrix
-\end{frame}
-
-\begin{frame}
-    \frametitle{Many-electron systems}
-    SCF algorithm II
-\end{frame}
-
-\begin{frame}
-    \frametitle{Many-electron systems}
-    Results
-\end{frame}
-
-\begin{frame}
-    \frametitle{Many-electron systems}
-    \begin{columns}
-    \begin{column}[b]{0.1\textwidth}
-    \ \\
-    \end{column}
-    \begin{column}[b]{0.4\textwidth}
-    \centering
-    Density
-    \begin{equation}
-	\nonumber
-	\rho^n(\boldsymbol{r}) = \sum_i |\phi_i^n(\boldsymbol{r})|^2
-    \end{equation}
-    \end{column}
-    \begin{column}[b]{0.4\textwidth}
-    \centering
-    Potentials
-    \begin{equation}   
-	\nonumber
-	\rho^n(\boldsymbol{r}) \rightarrow v_{eff}^n(\boldsymbol{r})
-    \end{equation}
-    \end{column}
-    \begin{column}[b]{0.1\textwidth}
-    \ \\
-    \end{column}
-    \end{columns}
-    \ \\
-    \ \\
-    \begin{columns}
-    \begin{column}[b]{0.1\textwidth}
-    \ \\
-    \end{column}
-    \begin{column}[b]{0.4\textwidth}
-    \centering
-    Power iteration
-    \begin{equation}
-	\nonumber
-	\tilde{\phi}_i^n = -2\hat{H}\left[v_{eff}^n\phi_i^n\right]
-    \end{equation}
-    \end{column}
-    \begin{column}[b]{0.4\textwidth}
-    \centering
-    Calculate updates
-    \begin{equation}
-	\nonumber
-	\Delta\phi^n = \tilde{\phi}^n - \phi^n
-    \end{equation}
-    \end{column}
-    \begin{column}[b]{0.1\textwidth}
-    \ \\
-    \end{column}
-    \end{columns}
-    \ \\
-    \ \\
-    \pause
-    \only<1,2>{
-    \centering
-    \ \\
-    \textbf{Complicating issues}
-    \ \\
-    \begin{columns}
-    \begin{column}[b]{0.25\textwidth}
-    \ \\
-    \end{column}
-    \begin{column}[b]{0.75\textwidth}
-    \begin{itemize}
-	\item	Straightforward iteration will bring all\\ 
-		orbitals to the lowest energy eigenfunction
-	\item	Orthonormality must be imposed
-	\item	Achieved by diagonalizing the Fock matrix 
-    \end{itemize}
-    \end{column}
-    \end{columns}
-    \begin{equation}
-        \nonumber
-        F_{ij} = \left<\phi_i|\hat{T} + v_{eff}|\phi_j\right>
-    \end{equation}
-    \ \\
-    \ \\
-    \ \\
-    \ \\
-    }
-    \only<3,4,5>{
-    \centering
-    Compute Fock matrix update
-    \begin{equation}
-	\nonumber
-	\Delta F_{ij}^n = \left<\tilde{\phi}_i^n|v_{eff}^n |\Delta\phi_j^n\right>
-		        + \left<\tilde{\phi}_i^n|\Delta v_{eff}^n|\phi_j^n\right>
-    \end{equation}
-    \ \\
-    \ \\
-    \ \\
-    \pause
-    \pause
-    \begin{columns}
-    \begin{column}[b]{0.1\textwidth}
-    \ \\
-    \end{column}
-    \begin{column}[b]{0.4\textwidth}
-    \centering
-    Diagonalize matrix
-    \begin{equation}
-	\nonumber
-	F^{n+1} = M^{-1}\tilde{F}^nM
-    \end{equation}
-    \end{column}
-    \begin{column}[b]{0.4\textwidth}
-    \centering
-    Rotate orbitals
-    \begin{equation}
-	\nonumber
-	\phi_i^{n+1} = \sum_jM^{-1}_{ij}\tilde{\phi}_j^n
-    \end{equation}
-    \end{column}
-    \begin{column}[b]{0.1\textwidth}
-    \ \\
-    \end{column}
-    \end{columns}
-    \ \\
-    \ \\
-    \pause
-    Compute iterative subspace acceleration (KAIN or DIIS)\\
-    \ \\
-    Orthonormalize\\
-    \ \\
-    }
-\end{frame}
-
-\begin{frame}
-    \frametitle{Many-electron systems}
+    \frametitle{Many-electron algorithm I}
     \begin{columns}
     \begin{column}[b]{0.20\linewidth}
-	\ \\
-	\ \\
+	\vspace{5mm}
     \end{column}
     \begin{column}[b]{0.30\linewidth}
     \begin{figure}
 	\centering
 	\includegraphics[scale=0.2, clip, viewport = 60 450 600 720]{figures/methane.pdf}\\
-	\ \\
-	\ \\
+	\vspace{5mm}
     \end{figure}
     \end{column}
     \begin{column}[b]{0.50\linewidth}
@@ -1124,6 +1034,117 @@ Density Functional Theory with multiwavelets
     \begin{center}
 	\includegraphics[scale=0.6, clip, viewport = 50 350 550 540]{figures/convergence.pdf}
     \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Many-electron algorithm I}
+    Results displaying convergence vs final accuracy (Ca)
+\end{frame}
+
+\begin{frame}
+    \frametitle{Fock matrix update}
+    \centering
+    \textbf{Using the relation}
+    \begin{equation}
+        \nonumber
+        -2\hat{G}_i^n = \big(\hat{T} - \lambda_i^n\big)^{-1}
+    \end{equation}
+
+    \vspace{3mm}
+
+    \textbf{Manipulating the Fock matrix expression}
+    \begin{align}
+        \nonumber
+        \tilde{F}_{ij}^{n+1}    &= 
+        \langle\tilde{\phi}_i^{n+1} |
+        \hat{T} + \hat{V}^{n+1}     |
+        \tilde{\phi}_j^{n+1}\rangle\\
+        \nonumber
+			    &= 
+        \langle\tilde{\phi}_i^{n+1} |
+        \hat{T} - \lambda_j^n       |
+        \tilde{\phi}_j^{n+1}\rangle +
+        \langle\tilde{\phi}_i^{n+1} |
+        \hat{V}^{n+1} + \lambda_j^n |
+        \tilde{\phi}_j^{n+1}\rangle\\
+        \nonumber
+        &\ \ \vdots
+    \end{align}
+
+    \textbf{Potential updates}
+    \begin{equation}
+        \nonumber
+        \big(\Delta\tilde{F}_{pot}^n\big)_{ij} =
+        \langle\tilde{\phi}_i^{n+1} |
+        \hat{V}^n                       |
+        \Delta\tilde{\phi}_j^n\rangle + 
+        \langle\tilde{\phi}_i^{n+1} |
+        \Delta\hat{V}^n                 |
+        \phi_j^n\rangle
+    \end{equation}
+
+    \vspace{3mm}
+
+    \textbf{Overlap updates}
+    \begin{equation}
+    \nonumber
+        \big(\Delta\tilde{S}_1^n\big)_{ij} =
+        \langle\Delta\tilde{\phi}_i^n | \phi_j^n\rangle \qquad \qquad
+        \big(\Delta \tilde{S}_2^n\big)_{ij} =
+        \langle\tilde{\phi}_i^{n+1} | \Delta\tilde{\phi}_j^n\rangle
+    \end{equation}
+
+    \vspace{3mm}
+
+    \centering
+    \textbf{Fock matrix without kinetic operator}
+    \begin{equation}
+        \nonumber
+        \tilde{F}^{n+1} = F^{n} + 
+        \Delta \tilde{S}_1^n F^n +
+        \Delta \tilde{S}_2^n \Lambda^n +
+        \Delta \tilde{F}_{pot}^n
+    \end{equation}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Many-electron algorithm II}
+    \centering
+    \textbf{Setup Fock operator} $\hat{F}^n$
+
+    \vspace{8mm}
+
+    \textbf{Iterate BSH operators with} $\lambda_i^n \approx F_{ii}^n$
+    \begin{equation}
+	\nonumber
+        \tilde{\phi}_i^{n+1} = -2\hat{G}_i^n \bigg[\hat{V}^n\phi_i^n -
+        \sum_j\big(F_{ji}^n - \Lambda_{ji}^n\big)\phi_j^n\bigg]
+    \end{equation}
+
+    \vspace{2mm}
+
+    \textbf{Compute potential updates} $\Delta\hat{V}^n$
+
+    \vspace{8mm}
+
+    \textbf{Update Fock matrix}
+    \begin{equation}
+        \nonumber
+        \tilde{F}^{n+1} = F^{n} + 
+        \Delta \tilde{S}_1^n F^n +
+        \Delta \tilde{S}_2^n \Lambda^n +
+        \Delta \tilde{F}_{pot}^n
+    \end{equation}
+
+    \vspace{5mm}
+
+    \textbf{Orthonormalize} $\tilde{S}^{-1/2}$
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Many-electron algorithm II}
+    Results displaying convergence vs final accuracy (Ca)
 \end{frame}
 
 %\begin{frame}
@@ -1210,7 +1231,7 @@ Density Functional Theory with multiwavelets
 %\end{tabular}
 %\end{table}
 %\ \\
-\ \\
+%\ \\
 %\ \\
 %\begin{itemize}
 %    \item We are able to attain \textbf{considerably higher} accuracy than high-quality Gaussian basis sets
