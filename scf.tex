@@ -654,33 +654,46 @@
 \begin{frame}
     \frametitle{Many-electron algorithm I}
     \begin{columns}
-    \begin{column}[b]{0.20\linewidth}
-	\vspace{5mm}
+    \begin{column}[b]{0.70\linewidth}
+        \centering
+        \includegraphics[scale=0.8, clip, viewport = 50 550 300 730]{figures/benzene_convergence.pdf}
     \end{column}
     \begin{column}[b]{0.30\linewidth}
-    \begin{figure}
-	\centering
-	\includegraphics[scale=0.2, clip, viewport = 60 450 600 720]{figures/methane.pdf}\\
-	\vspace{5mm}
-    \end{figure}
-    \end{column}
-    \begin{column}[b]{0.50\linewidth}
-    \begin{figure}
-	\begin{center}
-	\includegraphics[scale=0.45, clip, viewport = 320 200 520 400]{figures/methaneGrid.pdf}\\
-	\end{center}
-    \end{figure}
+        \centering
+        \textbf{Benzene}
+        \includegraphics[scale=0.1, clip, viewport = 0 0 1000 1200]{figures/benzene.png}
+
+        \vspace{5mm}
+
     \end{column}
     \end{columns}
-    \begin{center}
-	\includegraphics[scale=0.6, clip, viewport = 50 350 550 540]{figures/convergence.pdf}
-    \end{center}
 \end{frame}
 
-\begin{frame}
-    \frametitle{Many-electron algorithm I}
-    Results displaying convergence vs final accuracy (Ca)
-\end{frame}
+%\begin{frame}
+%    \frametitle{Many-electron algorithm I}
+%    \begin{columns}
+%    \begin{column}[b]{0.20\linewidth}
+%	\vspace{5mm}
+%    \end{column}
+%    \begin{column}[b]{0.30\linewidth}
+%    \begin{figure}
+%	\centering
+%	\includegraphics[scale=0.2, clip, viewport = 60 450 600 720]{figures/methane.pdf}\\
+%	\vspace{5mm}
+%    \end{figure}
+%    \end{column}
+%    \begin{column}[b]{0.50\linewidth}
+%    \begin{figure}
+%	\begin{center}
+%	\includegraphics[scale=0.45, clip, viewport = 320 200 520 400]{figures/methaneGrid.pdf}\\
+%	\end{center}
+%    \end{figure}
+%    \end{column}
+%    \end{columns}
+%    \begin{center}
+%	\includegraphics[scale=0.6, clip, viewport = 50 350 550 540]{figures/convergence.pdf}
+%    \end{center}
+%\end{frame}
 
 \begin{frame}
     \frametitle{Fock matrix update}
@@ -781,11 +794,53 @@
 
     \textbf{Orthonormalize} $\tilde{S}^{-1/2}$
 
+    \vspace{5mm}
+
+    \textbf{Diagonalize/localize}
+
 \end{frame}
 
 \begin{frame}
-    \frametitle{Many-electron algorithm II}
-    Results displaying convergence vs final accuracy (Ca)
+    \frametitle{Atomic energy}
+    \begin{columns}
+    \begin{column}[b]{0.50\linewidth}
+        \begin{itemize}
+            \item NWChem: GTOs (aug-cc-pV5Z)
+            \item ELK: Plane waves (LAPW)
+        \end{itemize}
+    \end{column}
+    \begin{column}[b]{0.50\linewidth}
+        \begin{itemize}
+            \item FHI-aims: Numerical AOs
+            \item MRChem: Multiwavelets
+        \end{itemize}
+    \end{column}
+    \end{columns}
+    \begin{center}
+	\includegraphics[scale=0.18, clip, viewport = 0 820 1400 1720]{figures/atom_accuracy.png}
+    \end{center}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Atomization energy}
+    \begin{columns}
+    \begin{column}[b]{0.50\linewidth}
+        \begin{itemize}
+            \item Test set: 207 molecules
+            \item Errors wrt MRChem ($\mu$Hartree)
+        \end{itemize}
+    \end{column}
+    \begin{column}[b]{0.50\linewidth}
+        \begin{itemize}
+            \item Top: Total energy
+            \item Bottom: Atomization energy
+        \end{itemize}
+    \end{column}
+    \end{columns}
+    \begin{center}
+	\includegraphics[scale=0.25, clip, viewport = 0 295 800 1000]{figures/molecule_accuracy.png}
+    \end{center}
 \end{frame}
 
 %\begin{frame}
